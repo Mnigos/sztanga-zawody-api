@@ -1,44 +1,57 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
 
-import { School } from './school.entity'
-
-import { schools } from 'src/data/schools'
+import { School } from './school.dto'
+import { SchoolApi } from './school.schema'
 
 @Injectable()
 export class SchoolsService {
-  create(school: School) {
-    if (!school) throw new BadRequestException()
+  constructor(
+    @InjectModel('School') private readonly schoolModel: Model<SchoolApi>
+  ) {}
 
-    schools.push(school)
+  async create(school: School): Promise<boolean> {
+    try {
+      await this.schoolModel.create(school)
 
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  update(name: string, newSchool: School) {
-    if (!name || !newSchool) throw new BadRequestException()
+  async update(_id: string, newSchool: School): Promise<School> {
+    const foundedSchool = await this.schoolModel.findOne({ _id }).exec()
 
-    const schoolIndex = schools.findIndex(school => school.name === name)
+    if (!foundedSchool)
+      throw new BadRequestException('Cannot find school with given id')
 
-    if (!schoolIndex) throw new BadRequestException('School not found')
+    await this.schoolModel.updateOne({ _id }, newSchool).exec()
 
-    schools[schoolIndex] = newSchool
-
-    return true
+    return await this.schoolModel.findOne({ _id }).exec()
   }
 
-  delete(name: string) {
-    if (!name) throw new BadRequestException()
+  async delete(_id: string): Promise<boolean> {
+    const foundedSchool = await this.schoolModel.findOne({ _id }).exec()
 
-    const newSchools = schools.filter(school => school.name !== name)
+    if (!foundedSchool)
+      throw new BadRequestException('Cannot find school with given id')
 
-    schools.splice(0, schools.length)
+    try {
+      await this.schoolModel.deleteOne({ _id }).exec()
 
-    schools.push(...newSchools)
-
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  get() {
-    return schools
+  async get(): Promise<School[]> {
+    return (await this.schoolModel.find().exec()) as School[]
   }
 }
