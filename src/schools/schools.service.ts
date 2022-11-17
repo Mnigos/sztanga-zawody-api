@@ -54,4 +54,8 @@ export class SchoolsService {
   async get(): Promise<School[]> {
     return (await this.schoolModel.find().exec()) as School[]
   }
+
+  async getOne(_id: string): Promise<School> {
+    return (await this.schoolModel.findOne({ _id }).exec()) as School
+  }
 }

@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { School } from './school.entity'
+import { School } from './school.dto'
 import { SchoolsService } from './schools.service'
 
 @Controller('schools')
@@ -25,18 +25,18 @@ export class SchoolsController {
     throw new InternalServerErrorException()
   }
 
-  @Patch('update/:name')
-  update(@Param('name') name: string, @Body() newSchool: School) {
-    const isUpdated = this.schoolsService.update(name, newSchool)
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() newSchool: School) {
+    const isUpdated = this.schoolsService.update(id, newSchool)
 
     if (isUpdated) return 'School successfully updated'
 
     throw new InternalServerErrorException()
   }
 
-  @Delete('delete/:name')
-  delete(@Param('name') name: string) {
-    const isDeleted = this.schoolsService.delete(name)
+  @Delete('delete/:id')
+  delete(@Param('id') id: string) {
+    const isDeleted = this.schoolsService.delete(id)
 
     if (isDeleted) return 'School successfully deleted'
 
@@ -48,8 +48,8 @@ export class SchoolsController {
     return this.schoolsService.get()
   }
 
-  @Get(':name')
-  getOne(@Param('name') name: string) {
-    return this.schoolsService.get().find(school => school.name === name)
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.schoolsService.getOne(id)
   }
 }
