@@ -65,6 +65,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'unicorn/prefer-top-level-await': 'off',
+    'nestjs/use-validation-pipe': 'off',
     'import/order': [
       'warn',
       {
