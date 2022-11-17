@@ -1,30 +1,51 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
+import { Model } from 'mongoose'
+import { InjectModel } from '@nestjs/mongoose'
 
-import { categories } from 'src/data/categories'
+import { CategoryApi } from './category.schema'
+import { Category } from './category.dto'
 
 @Injectable()
 export class CategoriesService {
-  create(name: string) {
-    if (!name) throw new BadRequestException()
+  constructor(
+    @InjectModel('Category') private readonly categoryModel: Model<CategoryApi>
+  ) {}
 
-    categories.push(name)
+  async create(category: Category): Promise<boolean> {
+    console.log(category)
+    try {
+      await this.categoryModel.create(category)
 
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  delete(name: string) {
-    if (!name) throw new BadRequestException()
+  async delete(_id: string): Promise<boolean> {
+    const foundedCategory = await this.categoryModel.findOne({ _id }).exec()
 
-    const newCategories = categories.filter(element => element !== name)
+    if (!foundedCategory)
+      throw new BadRequestException('Cannot find category with given id')
 
-    categories.splice(0, categories.length)
+    try {
+      await this.categoryModel.deleteOne({ _id }).exec()
 
-    categories.push(...newCategories)
-
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  get() {
-    return categories
+  async get(): Promise<Category[]> {
+    return (await this.categoryModel.find().exec()) as Category[]
+  }
+
+  async getOne(_id: string): Promise<Category> {
+    return (await this.categoryModel.findOne({ _id }).exec()) as Category
   }
 }
