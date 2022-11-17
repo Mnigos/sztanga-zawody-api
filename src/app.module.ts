@@ -10,6 +10,7 @@ import { CategoriesModule } from './categories/categories.module'
 import { SchoolsModule } from './schools/schools.module'
 import { CompetitorsModule } from './competitors/competitors.module'
 import { AttemptsModule } from './attempts/attempts.module'
+import { MessagesModule } from './messages/messages.module'
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AttemptsModule } from './attempts/attempts.module'
       inject: [ConfigService],
     }),
     AttemptsModule,
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
