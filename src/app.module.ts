@@ -19,6 +19,7 @@ import { CompetitorsModule } from './competitors/competitors.module'
       isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
+        PORT: Joi.number().default(4000),
       }),
       envFilePath: './.env',
     }),

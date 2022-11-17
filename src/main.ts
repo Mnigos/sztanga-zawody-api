@@ -1,7 +1,9 @@
 import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
+import { Environment } from './environment.enum'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -10,6 +12,7 @@ async function bootstrap() {
   app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
 
+  const configService = app.get(ConfigService)
   const config = new DocumentBuilder()
     .setTitle('Sztanga API')
     .setVersion('1.0')
@@ -19,6 +22,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
 
-  await app.listen(4000)
+  await app.listen(configService.get(Environment.PORT))
 }
 bootstrap()
