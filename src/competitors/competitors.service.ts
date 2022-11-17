@@ -1,48 +1,62 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
 
-import { Competitor } from './competitor.entity'
-
-import { competitors } from 'src/data/competitors'
+import { Competitor } from './competitor.dto'
+import { CompetitorApi } from './competitor.schema'
 
 @Injectable()
 export class CompetitorsService {
-  create(competitor: Competitor) {
-    if (!competitor) throw new BadRequestException()
+  constructor(
+    @InjectModel('Competitor')
+    private readonly competitorModel: Model<CompetitorApi>
+  ) {}
 
-    competitors.push(competitor)
+  async create(competitor: Competitor): Promise<boolean> {
+    try {
+      await this.competitorModel.create(competitor)
 
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  update(name: string, newCompetitor: Competitor) {
-    if (!name || !newCompetitor) throw new BadRequestException()
+  async update(_id: string, newCompetitor: Competitor): Promise<Competitor> {
+    const foundedCompetitor = await this.competitorModel.findOne({ _id }).exec()
 
-    const competitorIndex = competitors.findIndex(
-      competitor => competitor.name === name
-    )
+    if (!foundedCompetitor)
+      throw new BadRequestException('Cannot find school with given id')
 
-    if (!competitorIndex) throw new BadRequestException('competitor not found')
+    await this.competitorModel.updateOne({ _id }, newCompetitor).exec()
 
-    competitors[competitorIndex] = newCompetitor
-
-    return true
+    return await this.competitorModel.findOne({ _id }).exec()
   }
 
-  delete(name: string) {
-    if (!name) throw new BadRequestException()
+  async delete(_id: string) {
+    const foundedCompetitor = await this.competitorModel.findOne({ _id }).exec()
 
-    const newCompetitors = competitors.filter(
-      competitor => competitor.name !== name
-    )
+    if (!foundedCompetitor)
+      throw new BadRequestException('Cannot find school with given id')
 
-    competitors.splice(0, competitors.length)
+    try {
+      await this.competitorModel.deleteOne({ _id }).exec()
 
-    competitors.push(...newCompetitors)
-
-    return true
+      return true
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  get() {
-    return competitors
+  async get(): Promise<Competitor[]> {
+    return (await this.competitorModel.find().exec()) as Competitor[]
+  }
+
+  async getOne(_id: string): Promise<Competitor> {
+    return (await this.competitorModel.findOne({ _id }).exec()) as Competitor
   }
 }

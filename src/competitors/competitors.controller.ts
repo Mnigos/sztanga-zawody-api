@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { Competitor } from './competitor.entity'
+import { Competitor } from './competitor.dto'
 import { CompetitorsService } from './competitors.service'
 
 @Controller('competitors')
@@ -25,18 +25,18 @@ export class CompetitorsController {
     throw new InternalServerErrorException()
   }
 
-  @Patch('update/:name')
-  update(@Param('name') name: string, @Body() newCompetitor: Competitor) {
-    const isUpdated = this.competitorsService.update(name, newCompetitor)
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() newCompetitor: Competitor) {
+    const isUpdated = this.competitorsService.update(id, newCompetitor)
 
     if (isUpdated) return 'Competitor successfully updated'
 
     throw new InternalServerErrorException()
   }
 
-  @Delete('delete/:name')
-  delete(@Param('name') name: string) {
-    const isDeleted = this.competitorsService.delete(name)
+  @Delete('delete/:id')
+  delete(@Param('id') id: string) {
+    const isDeleted = this.competitorsService.delete(id)
 
     if (isDeleted) return 'Competitor successfully deleted'
 
@@ -48,10 +48,8 @@ export class CompetitorsController {
     return this.competitorsService.get()
   }
 
-  @Get(':name')
-  getOne(@Param('name') name: string) {
-    return this.competitorsService
-      .get()
-      .find(competitor => competitor.name === name)
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.competitorsService.getOne(id)
   }
 }
