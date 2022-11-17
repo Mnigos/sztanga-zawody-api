@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   Param,
   Patch,
@@ -17,6 +19,7 @@ export class CompetitorsController {
   constructor(private readonly competitorsService: CompetitorsService) {}
 
   @Post('create')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() competitor: Competitor) {
     const isCreated = this.competitorsService.create(competitor)
 
@@ -35,6 +38,7 @@ export class CompetitorsController {
   }
 
   @Delete('delete/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
   delete(@Param('id') id: string) {
     const isDeleted = this.competitorsService.delete(id)
 

@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   Param,
   Patch,
@@ -17,6 +19,7 @@ export class SchoolsController {
   constructor(private readonly schoolsService: SchoolsService) {}
 
   @Post('create')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() school: School) {
     const isCreated = this.schoolsService.create(school)
 
@@ -35,6 +38,7 @@ export class SchoolsController {
   }
 
   @Delete('delete/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
   delete(@Param('id') id: string) {
     const isDeleted = this.schoolsService.delete(id)
 

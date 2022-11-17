@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   Param,
   Post,
@@ -16,6 +18,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post('create')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() category: Category) {
     const isCreated = this.categoriesService.create(category)
 
@@ -25,6 +28,7 @@ export class CategoriesController {
   }
 
   @Delete('delete/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
   delete(@Param('id') id: string) {
     const isDeleted = this.categoriesService.delete(id)
 
