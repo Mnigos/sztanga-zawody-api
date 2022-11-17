@@ -3,7 +3,7 @@ import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator'
 
 import { AttemptStatus } from './attempt-status.enum'
 
-export abstract class Attempt {
+export abstract class AttemptDto {
   @ApiProperty()
   @IsString()
   competitorId: string

@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { School } from './school.dto'
+import { SchoolDto } from './school.dto'
 import { SchoolApi } from './school.schema'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class SchoolsService {
     @InjectModel('School') private readonly schoolModel: Model<SchoolApi>
   ) {}
 
-  async create(school: School): Promise<boolean> {
+  async create(school: SchoolDto): Promise<boolean> {
     try {
       await this.schoolModel.create(school)
 
@@ -25,7 +25,7 @@ export class SchoolsService {
     }
   }
 
-  async update(_id: string, newSchool: School): Promise<School> {
+  async update(_id: string, newSchool: SchoolDto): Promise<SchoolDto> {
     const foundedSchool = await this.schoolModel.findOne({ _id }).exec()
 
     if (!foundedSchool)
@@ -51,11 +51,11 @@ export class SchoolsService {
     }
   }
 
-  async get(): Promise<School[]> {
-    return (await this.schoolModel.find().exec()) as School[]
+  async get(): Promise<SchoolDto[]> {
+    return (await this.schoolModel.find().exec()) as SchoolDto[]
   }
 
-  async getOne(_id: string): Promise<School> {
-    return (await this.schoolModel.findOne({ _id }).exec()) as School
+  async getOne(_id: string): Promise<SchoolDto> {
+    return (await this.schoolModel.findOne({ _id }).exec()) as SchoolDto
   }
 }

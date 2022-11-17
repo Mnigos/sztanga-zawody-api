@@ -11,7 +11,7 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { Competitor } from './competitor.dto'
+import { CompetitorDto } from './competitor.dto'
 import { CompetitorsService } from './competitors.service'
 
 @Controller('competitors')
@@ -20,7 +20,7 @@ export class CompetitorsController {
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() competitor: Competitor) {
+  create(@Body() competitor: CompetitorDto) {
     const isCreated = this.competitorsService.create(competitor)
 
     if (isCreated) return 'Competitor successfully created'
@@ -29,7 +29,7 @@ export class CompetitorsController {
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() newCompetitor: Competitor) {
+  update(@Param('id') id: string, @Body() newCompetitor: CompetitorDto) {
     const isUpdated = this.competitorsService.update(id, newCompetitor)
 
     if (isUpdated) return 'Competitor successfully updated'

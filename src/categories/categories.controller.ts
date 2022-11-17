@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 
 import { CategoriesService } from './categories.service'
-import { Category } from './category.dto'
+import { CategoryDto } from './category.dto'
 
 @Controller('categories')
 export class CategoriesController {
@@ -19,7 +19,7 @@ export class CategoriesController {
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() category: Category) {
+  create(@Body() category: CategoryDto) {
     const isCreated = this.categoriesService.create(category)
 
     if (isCreated) return 'Category successfully created'

@@ -11,7 +11,7 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { School } from './school.dto'
+import { SchoolDto } from './school.dto'
 import { SchoolsService } from './schools.service'
 
 @Controller('schools')
@@ -20,7 +20,7 @@ export class SchoolsController {
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() school: School) {
+  create(@Body() school: SchoolDto) {
     const isCreated = this.schoolsService.create(school)
 
     if (isCreated) return 'School successfully created'
@@ -29,7 +29,7 @@ export class SchoolsController {
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() newSchool: School) {
+  update(@Param('id') id: string, @Body() newSchool: SchoolDto) {
     const isUpdated = this.schoolsService.update(id, newSchool)
 
     if (isUpdated) return 'School successfully updated'

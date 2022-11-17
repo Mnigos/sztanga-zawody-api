@@ -13,5 +13,6 @@ import { CompetitorSchema } from './competitor.schema'
   ],
   providers: [CompetitorsService],
   controllers: [CompetitorsController],
+  exports: [CompetitorsService],
 })
 export class CompetitorsModule {}

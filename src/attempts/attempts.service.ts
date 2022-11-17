@@ -7,17 +7,20 @@ import {
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { Attempt } from './attempt.dto'
+import { CompetitorsService } from '../competitors/competitors.service'
+
+import { AttemptDto } from './attempt.dto'
 import { AttemptApi } from './attempt.schema'
 
 @Injectable()
 export class AttemptsService {
   constructor(
     @InjectModel('Attempt')
-    private readonly attemptModel: Model<AttemptApi>
+    private readonly attemptModel: Model<AttemptApi>,
+    private readonly competitorsService: CompetitorsService
   ) {}
 
-  async create(attempt: Attempt): Promise<boolean> {
+  async create(attempt: AttemptDto): Promise<boolean> {
     const { competitorId } = attempt
 
     const foundedAttempt = await this.attemptModel.find({ competitorId }).exec()
@@ -36,7 +39,7 @@ export class AttemptsService {
     }
   }
 
-  async update(_id: string, newAttempt: Attempt): Promise<Attempt> {
+  async update(_id: string, newAttempt: AttemptDto): Promise<AttemptDto> {
     const foundedAttempt = await this.attemptModel.findOne({ _id }).exec()
 
     if (!foundedAttempt)
@@ -62,11 +65,11 @@ export class AttemptsService {
     }
   }
 
-  async get(): Promise<Attempt[]> {
-    return (await this.attemptModel.find().exec()) as Attempt[]
+  async get(): Promise<AttemptDto[]> {
+    return (await this.attemptModel.find().exec()) as AttemptDto[]
   }
 
-  async getOne(_id: string): Promise<Attempt> {
-    return (await this.attemptModel.findOne({ _id }).exec()) as Attempt
+  async getOne(_id: string): Promise<AttemptDto> {
+    return (await this.attemptModel.findOne({ _id }).exec()) as AttemptDto
   }
 }

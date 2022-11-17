@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { Competitor } from './competitor.dto'
+import { CompetitorDto } from './competitor.dto'
 import { CompetitorApi } from './competitor.schema'
 
 @Injectable()
@@ -16,7 +16,7 @@ export class CompetitorsService {
     private readonly competitorModel: Model<CompetitorApi>
   ) {}
 
-  async create(competitor: Competitor): Promise<boolean> {
+  async create(competitor: CompetitorDto): Promise<boolean> {
     try {
       await this.competitorModel.create(competitor)
 
@@ -26,7 +26,10 @@ export class CompetitorsService {
     }
   }
 
-  async update(_id: string, newCompetitor: Competitor): Promise<Competitor> {
+  async update(
+    _id: string,
+    newCompetitor: CompetitorDto
+  ): Promise<CompetitorDto> {
     const foundedCompetitor = await this.competitorModel.findOne({ _id }).exec()
 
     if (!foundedCompetitor)
@@ -52,11 +55,11 @@ export class CompetitorsService {
     }
   }
 
-  async get(): Promise<Competitor[]> {
-    return (await this.competitorModel.find().exec()) as Competitor[]
+  async get(): Promise<CompetitorDto[]> {
+    return (await this.competitorModel.find().exec()) as CompetitorDto[]
   }
 
-  async getOne(_id: string): Promise<Competitor> {
-    return (await this.competitorModel.findOne({ _id }).exec()) as Competitor
+  async getOne(_id: string): Promise<CompetitorDto> {
+    return (await this.competitorModel.findOne({ _id }).exec()) as CompetitorDto
   }
 }

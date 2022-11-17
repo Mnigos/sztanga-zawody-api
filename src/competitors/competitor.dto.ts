@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDateString, IsInt, IsString, MinLength } from 'class-validator'
 
-import { School } from '../schools/school.dto'
+import { SchoolDto } from '../schools/school.dto'
 
-export abstract class Competitor {
+export abstract class CompetitorDto {
   @ApiProperty()
   @IsString()
   @MinLength(4)
@@ -15,7 +15,7 @@ export abstract class Competitor {
   secondName: string
 
   @ApiProperty()
-  school: School
+  school: SchoolDto
 
   @ApiProperty()
   @IsString()

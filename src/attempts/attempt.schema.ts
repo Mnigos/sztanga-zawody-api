@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 
 import { AttemptStatus } from './attempt-status.enum'
-import { Attempt } from './attempt.dto'
+import { AttemptDto } from './attempt.dto'
 
 @Schema()
-export class AttemptApi extends Document implements Attempt {
+export class AttemptApi extends Document implements AttemptDto {
   @Prop({ type: String, required: true })
   competitorId: string
 

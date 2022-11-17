@@ -10,7 +10,7 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { Attempt } from './attempt.dto'
+import { AttemptDto } from './attempt.dto'
 import { AttemptsService } from './attempts.service'
 
 @Controller('attempts')
@@ -19,12 +19,12 @@ export class AttemptsController {
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() attempt: Attempt) {
+  create(@Body() attempt: AttemptDto) {
     return this.attemptsService.create(attempt)
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() newAttempt: Attempt) {
+  update(@Param('id') id: string, @Body() newAttempt: AttemptDto) {
     return this.attemptsService.update(id, newAttempt)
   }
 

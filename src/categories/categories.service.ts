@@ -7,7 +7,7 @@ import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { CategoryApi } from './category.schema'
-import { Category } from './category.dto'
+import { CategoryDto } from './category.dto'
 
 @Injectable()
 export class CategoriesService {
@@ -15,7 +15,7 @@ export class CategoriesService {
     @InjectModel('Category') private readonly categoryModel: Model<CategoryApi>
   ) {}
 
-  async create(category: Category): Promise<boolean> {
+  async create(category: CategoryDto): Promise<boolean> {
     console.log(category)
     try {
       await this.categoryModel.create(category)
@@ -41,11 +41,11 @@ export class CategoriesService {
     }
   }
 
-  async get(): Promise<Category[]> {
-    return (await this.categoryModel.find().exec()) as Category[]
+  async get(): Promise<CategoryDto[]> {
+    return (await this.categoryModel.find().exec()) as CategoryDto[]
   }
 
-  async getOne(_id: string): Promise<Category> {
-    return (await this.categoryModel.findOne({ _id }).exec()) as Category
+  async getOne(_id: string): Promise<CategoryDto> {
+    return (await this.categoryModel.findOne({ _id }).exec()) as CategoryDto
   }
 }

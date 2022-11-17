@@ -1,10 +1,10 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 
-import { Category } from './category.dto'
+import { CategoryDto } from './category.dto'
 
 @Schema()
-export class CategoryApi extends Document implements Category {
+export class CategoryApi extends Document implements CategoryDto {
   @Prop({ type: String, required: true })
   name: string
 }
