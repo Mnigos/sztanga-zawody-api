@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import Joi from 'joi'
 import { MongooseModule } from '@nestjs/mongoose'
 
+import { Environment } from './environment.enum'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { CategoriesModule } from './categories/categories.module'
@@ -21,7 +22,12 @@ import { CompetitorsModule } from './competitors/competitors.module'
       }),
       envFilePath: './.env',
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get(Environment.MONGODB_URI),
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
