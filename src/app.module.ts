@@ -3,13 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import Joi from 'joi'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { Environment } from './config/environment.enum'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { CategoriesModule } from './categories/categories.module'
-import { SchoolsModule } from './schools/schools.module'
-import { CompetitorsModule } from './competitors/competitors.module'
-import { MessagesModule } from './messages/messages.module'
+
+import { Environment } from '~/config'
+import { CategoriesModule } from '~/categories'
+import { SchoolsModule } from '~/schools'
+import { CompetitorsModule } from '~/competitors'
+import { MessagesModule } from '~/messages'
 
 @Module({
   imports: [

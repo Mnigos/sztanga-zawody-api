@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
-import { Environment } from './config/environment.enum'
 import { AppModule } from './app.module'
+
+import { Environment } from '~/config'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)

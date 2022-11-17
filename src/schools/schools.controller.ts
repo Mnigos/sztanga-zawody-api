@@ -10,10 +10,8 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { MessagesService } from '../messages/messages.service'
-
-import { SchoolDto } from './school.dto'
-import { SchoolsService } from './schools.service'
+import { MessagesService } from '~/messages'
+import { SchoolDto, SchoolsService } from '~/schools'
 
 @Controller('schools')
 export class SchoolsController {

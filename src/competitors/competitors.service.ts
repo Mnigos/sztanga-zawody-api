@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
-import { CompetitorDocument } from './competitor.document'
-import { CompetitorDto } from './competitor.dto'
-import { CompetitorRepository } from './competitor.repository'
-
-import { SchoolRepository } from '~/schools/school.repository'
-import { CategoryRepository } from '~/categories/category.repository'
+import {
+  CompetitorDocument,
+  CompetitorDto,
+  CompetitorRepository,
+} from '~/competitors'
+import { SchoolRepository } from '~/schools'
+import { CategoryRepository } from '~/categories'
 
 @Injectable()
 export class CompetitorsService {

@@ -1,7 +1,7 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 
-import { Category } from './category'
+import { Category } from '~/categories'
 
 @Schema()
 export class CategoryApi extends Document implements Category {

@@ -1,7 +1,7 @@
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { UpdateQuery, Model, FilterQuery } from 'mongoose'
 
-import { MessagesService } from '../messages/messages.service'
+import { MessagesService } from '~/messages'
 
 export abstract class AbstractRepository<TDocument, TDto> {
   constructor(

@@ -1,5 +1,5 @@
-import { CategoryDocument } from '~/categories/category.document'
-import { SchoolDocument } from '~/schools/school.document'
+import { CategoryDocument } from '~/categories'
+import { SchoolDocument } from '~/schools'
 
 export interface Competitor {
   name: string

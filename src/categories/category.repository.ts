@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { MessagesService } from '../messages/messages.service'
-import { AbstractRepository, DocumentName, ModelName } from '../database'
-
-import { CategoryDto } from './category.dto'
-import { CategoryApi } from './category.schema'
+import { MessagesService } from '~/messages'
+import { AbstractRepository, DocumentName, ModelName } from '~/database'
+import { CategoryApi, CategoryDto } from '~/categories'
 
 @Injectable()
 export class CategoryRepository extends AbstractRepository<

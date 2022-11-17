@@ -2,12 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { AbstractRepository } from '../database/abstract.repository'
-import { DocumentName, ModelName } from '../database'
-
-import { MessagesService } from './../messages/messages.service'
-import { SchoolApi } from './school.schema'
-import { SchoolDto } from './school.dto'
+import { DocumentName, ModelName, AbstractRepository } from '~/database'
+import { MessagesService } from '~/messages'
+import { SchoolApi, SchoolDto } from '~/schools'
 
 @Injectable()
 export class SchoolRepository extends AbstractRepository<SchoolApi, SchoolDto> {

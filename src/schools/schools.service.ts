@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
-import { SchoolDocument } from './school.document'
-import { SchoolDto } from './school.dto'
-import { SchoolRepository } from './school.repository'
+import { SchoolDocument, SchoolDto, SchoolRepository } from '~/schools'
 
 @Injectable()
 export class SchoolsService {

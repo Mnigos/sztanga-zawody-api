@@ -11,9 +11,8 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { MessagesService } from './../messages/messages.service'
-import { CategoriesService } from './categories.service'
-import { CategoryDto } from './category.dto'
+import { MessagesService } from '~/messages'
+import { CategoriesService, CategoryDto } from '~/categories'
 
 @Controller('categories')
 export class CategoriesController {

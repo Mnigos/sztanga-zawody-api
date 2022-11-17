@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
-import { DocumentName } from '../database'
+import { DocumentName } from '~/database'
 
 @Injectable()
 export class MessagesService {

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { MessagesModule } from '../messages/messages.module'
-import { DocumentName, ModelName } from '../database'
-
-import { CategoriesService } from './categories.service'
-import { CategoriesController } from './categories.controller'
-import { CategorySchema } from './category.schema'
-import { CategoryRepository } from './category.repository'
+import { MessagesModule } from '~/messages'
+import { DocumentName, ModelName } from '~/database'
+import {
+  CategoriesController,
+  CategoriesService,
+  CategoryRepository,
+  CategorySchema,
+} from '~/categories'
 
 @Module({
   imports: [

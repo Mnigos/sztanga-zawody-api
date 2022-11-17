@@ -1,11 +1,10 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
 import { Document, Types } from 'mongoose'
 
-import { Competitor } from './competitor'
-
+import { Competitor } from '~/competitors'
 import { ModelName } from '~/database'
-import { SchoolDocument } from '~/schools/school.document'
-import { CategoryDocument } from '~/categories/category.document'
+import { SchoolDocument } from '~/schools'
+import { CategoryDocument } from '~/categories'
 
 @Schema()
 export class CompetitorApi extends Document implements Competitor {

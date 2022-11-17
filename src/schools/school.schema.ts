@@ -1,7 +1,7 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 
-import { SchoolDto } from './school.dto'
+import { SchoolDto } from '~/schools'
 
 @Schema()
 export class SchoolApi extends Document implements SchoolDto {
