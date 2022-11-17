@@ -1,5 +1,5 @@
 import { Document } from 'mongoose'
 
-export interface Category extends Document {
-  name: string
-}
+import { Category } from './category'
+
+export interface CategoryDocument extends Document, Category {}

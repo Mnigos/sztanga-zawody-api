@@ -1,6 +1,5 @@
 import { Document } from 'mongoose'
 
-export interface School extends Document {
-  name: string
-  description?: string
-}
+import { School } from './school'
+
+export interface SchoolDocument extends Document, School {}

@@ -1,11 +1,11 @@
-import { Category } from '~/categories/category.document'
-import { School } from '~/schools/school.document'
+import { CategoryDocument } from '~/categories/category.document'
+import { SchoolDocument } from '~/schools/school.document'
 
 export interface Competitor {
   name: string
   secondName: string
-  school: School
-  category: Category
+  school: SchoolDocument
+  category: CategoryDocument
   weight: number
   birthDate: Date
 }

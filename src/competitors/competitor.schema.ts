@@ -4,8 +4,8 @@ import { Document, Types } from 'mongoose'
 import { Competitor } from './competitor'
 
 import { ModelName } from '~/database'
-import { School } from '~/schools/school.document'
-import { Category } from '~/categories/category.document'
+import { SchoolDocument } from '~/schools/school.document'
+import { CategoryDocument } from '~/categories/category.document'
 
 @Schema()
 export class CompetitorApi extends Document implements Competitor {
@@ -16,10 +16,10 @@ export class CompetitorApi extends Document implements Competitor {
   secondName: string
 
   @Prop({ type: Types.ObjectId, required: true, ref: ModelName.School })
-  school: School
+  school: SchoolDocument
 
   @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Category })
-  category: Category
+  category: CategoryDocument
 
   @Prop({ type: Number, required: true })
   weight: number

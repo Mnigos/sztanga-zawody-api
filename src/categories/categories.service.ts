@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common'
 
 import { CategoryDto } from './category.dto'
 import { CategoryRepository } from './category.repository'
-import { Category } from './category.document'
+import { CategoryDocument } from './category.document'
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async create(category: CategoryDto): Promise<Category> {
+  async create(category: CategoryDto): Promise<CategoryDocument> {
     return await this.categoryRepository.create(category)
   }
 
@@ -16,15 +16,18 @@ export class CategoriesService {
     return await this.categoryRepository.delete({ _id })
   }
 
-  async get(): Promise<Category[]> {
+  async get(): Promise<CategoryDocument[]> {
     return this.categoryRepository.find()
   }
 
-  async getOne(_id: string): Promise<Category> {
+  async getOne(_id: string): Promise<CategoryDocument> {
     return this.categoryRepository.findOne({ _id })
   }
 
-  async update(_id: string, newCategory: CategoryDto): Promise<Category> {
+  async update(
+    _id: string,
+    newCategory: CategoryDto
+  ): Promise<CategoryDocument> {
     return this.categoryRepository.findOneAndUpdate({ _id }, newCategory)
   }
 }
