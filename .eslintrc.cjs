@@ -15,18 +15,11 @@ module.exports = {
     settings: {
       'import/resolver': {
         node: {
-          paths: ['~/', '@lib/common', '@lib/utils'],
+          paths: ['~/'],
           extensions: ['.js', '.ts'],
         },
         alias: {
-          map: [
-            ['~', './'],
-            ['@lib/common', './libs/common/src'],
-            ['@lib/utils', './libs/utils/src'],
-            ['@app/auth', './apps/auth/src'],
-            ['@app/statistics', './apps/statistics/src'],
-            ['@app/player', './apps/player/src'],
-          ],
+          map: [['~', './src']],
           extensions: ['.ts', '.js'],
         },
       },
