@@ -7,24 +7,30 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common'
 
+import { MessagesService } from './../messages/messages.service'
 import { CategoriesService } from './categories.service'
 import { CategoryDto } from './category.dto'
 
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(
+    private readonly categoriesService: CategoriesService,
+    private readonly messagesService: MessagesService
+  ) {}
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() category: CategoryDto) {
-    const isCreated = this.categoriesService.create(category)
+    return this.categoriesService.create(category)
+  }
 
-    if (isCreated) return 'Category successfully created'
-
-    throw new InternalServerErrorException()
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() newCategory: CategoryDto) {
+    return this.categoriesService.update(id, newCategory)
   }
 
   @Delete('delete/:id')
@@ -32,7 +38,7 @@ export class CategoriesController {
   delete(@Param('id') id: string) {
     const isDeleted = this.categoriesService.delete(id)
 
-    if (isDeleted) return 'Category successfully deleted'
+    if (isDeleted) return this.messagesService.deleted()
 
     throw new InternalServerErrorException()
   }

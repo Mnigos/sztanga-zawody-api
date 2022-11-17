@@ -1,51 +1,30 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common'
-import { Model } from 'mongoose'
-import { InjectModel } from '@nestjs/mongoose'
+import { Injectable } from '@nestjs/common'
 
-import { CategoryApi } from './category.schema'
 import { CategoryDto } from './category.dto'
+import { CategoryRepository } from './category.repository'
+import { Category } from './category.document'
 
 @Injectable()
 export class CategoriesService {
-  constructor(
-    @InjectModel('Category') private readonly categoryModel: Model<CategoryApi>
-  ) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async create(category: CategoryDto): Promise<boolean> {
-    console.log(category)
-    try {
-      await this.categoryModel.create(category)
-
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+  async create(category: CategoryDto): Promise<Category> {
+    return await this.categoryRepository.create(category)
   }
 
-  async delete(_id: string): Promise<boolean> {
-    const foundedCategory = await this.categoryModel.findOne({ _id }).exec()
-
-    if (!foundedCategory)
-      throw new BadRequestException('Cannot find category with given id')
-
-    try {
-      await this.categoryModel.deleteOne({ _id }).exec()
-
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+  async delete(id: string): Promise<boolean> {
+    return await this.categoryRepository.delete(id)
   }
 
-  async get(): Promise<CategoryDto[]> {
-    return (await this.categoryModel.find().exec()) as CategoryDto[]
+  async get(): Promise<Category[]> {
+    return this.categoryRepository.find()
   }
 
-  async getOne(_id: string): Promise<CategoryDto> {
-    return (await this.categoryModel.findOne({ _id }).exec()) as CategoryDto
+  async getOne(id: string): Promise<Category> {
+    return this.categoryRepository.findOne(id)
+  }
+
+  async update(id: string, newCategory: CategoryDto): Promise<Category> {
+    return this.categoryRepository.findOneAndUpdate(id, newCategory)
   }
 }
