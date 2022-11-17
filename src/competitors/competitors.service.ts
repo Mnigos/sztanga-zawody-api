@@ -1,65 +1,58 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { Injectable } from '@nestjs/common'
 
+import { CompetitorDocument } from './competitor.document'
 import { CompetitorDto } from './competitor.dto'
-import { CompetitorApi } from './competitor.schema'
+import { CompetitorRepository } from './competitor.repository'
+
+import { SchoolRepository } from '~/schools/school.repository'
+import { CategoryRepository } from '~/categories/category.repository'
 
 @Injectable()
 export class CompetitorsService {
   constructor(
-    @InjectModel('Competitor')
-    private readonly competitorModel: Model<CompetitorApi>
+    private readonly competitorRepository: CompetitorRepository,
+    private readonly categoryRepository: CategoryRepository,
+    private readonly schoolRepository: SchoolRepository
   ) {}
 
-  async create(competitor: CompetitorDto): Promise<boolean> {
-    try {
-      await this.competitorModel.create(competitor)
+  async create(newCompetitor: CompetitorDto): Promise<CompetitorDocument> {
+    const { categoryId, schoolId, ...competitor } = newCompetitor
 
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+    const category = await this.categoryRepository.findOne(categoryId)
+    const school = await this.schoolRepository.findOne(schoolId)
+
+    return await this.competitorRepository.create({
+      ...competitor,
+      category,
+      school,
+    })
   }
 
   async update(
-    _id: string,
+    id: string,
     newCompetitor: CompetitorDto
-  ): Promise<CompetitorDto> {
-    const foundedCompetitor = await this.competitorModel.findOne({ _id }).exec()
+  ): Promise<CompetitorDocument> {
+    const { categoryId, schoolId, ...competitor } = newCompetitor
 
-    if (!foundedCompetitor)
-      throw new BadRequestException('Cannot find school with given id')
+    const category = this.categoryRepository.findOne(categoryId)
+    const school = this.schoolRepository.findOne(schoolId)
 
-    await this.competitorModel.updateOne({ _id }, newCompetitor).exec()
-
-    return await this.competitorModel.findOne({ _id }).exec()
+    return await this.competitorRepository.findOneAndUpdate(id, {
+      ...competitor,
+      category,
+      school,
+    })
   }
 
-  async delete(_id: string) {
-    const foundedCompetitor = await this.competitorModel.findOne({ _id }).exec()
-
-    if (!foundedCompetitor)
-      throw new BadRequestException('Cannot find school with given id')
-
-    try {
-      await this.competitorModel.deleteOne({ _id }).exec()
-
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+  async delete(_id: string): Promise<boolean> {
+    return await this.competitorRepository.delete(_id)
   }
 
-  async get(): Promise<CompetitorDto[]> {
-    return (await this.competitorModel.find().exec()) as CompetitorDto[]
+  async get(): Promise<CompetitorDocument[]> {
+    return await this.competitorRepository.find()
   }
 
-  async getOne(_id: string): Promise<CompetitorDto> {
-    return (await this.competitorModel.findOne({ _id }).exec()) as CompetitorDto
+  async getOne(id: string): Promise<CompetitorDocument> {
+    return await this.competitorRepository.findOne(id)
   }
 }

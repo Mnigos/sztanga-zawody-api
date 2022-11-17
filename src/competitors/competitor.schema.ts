@@ -1,25 +1,25 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
-import { Document } from 'mongoose'
+import { Document, Types } from 'mongoose'
 
-import { SchoolDto } from '../schools/school.dto'
+import { Competitor } from './competitor'
 
-import { CompetitorDto } from './competitor.dto'
-
-import { SchoolApi } from '~/schools/school.schema'
+import { ModelName } from '~/database'
+import { School } from '~/schools/school.document'
+import { Category } from '~/categories/category.document'
 
 @Schema()
-export class CompetitorApi extends Document implements CompetitorDto {
+export class CompetitorApi extends Document implements Competitor {
   @Prop({ type: String, required: true })
   name: string
 
   @Prop({ type: String, required: true })
   secondName: string
 
-  @Prop({ type: SchoolApi, required: true })
-  school: SchoolDto
+  @Prop({ type: Types.ObjectId, required: true, ref: ModelName.School })
+  school: School
 
-  @Prop({ type: String, required: true })
-  category: string
+  @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Category })
+  category: Category
 
   @Prop({ type: Number, required: true })
   weight: number

@@ -1,11 +1,11 @@
 import { Document } from 'mongoose'
 
-import { Competitor } from '../competitors/competitor.document'
+import { CompetitorDocument } from '../competitors/competitor.document'
 
 import { AttemptStatus } from './attempt-status.enum'
 
 export interface Attempt extends Document {
-  competitor: Competitor
+  competitor: CompetitorDocument
   weight: number
   status?: AttemptStatus
 }

@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  InternalServerErrorException,
   Param,
   Patch,
   Post,
@@ -40,8 +39,6 @@ export class SchoolsController {
     const isDeleted = this.schoolsService.delete(id)
 
     if (isDeleted) return this.messagesService.deleted()
-
-    throw new InternalServerErrorException()
   }
 
   @Get()

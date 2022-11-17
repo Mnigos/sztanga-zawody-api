@@ -5,36 +5,31 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  InternalServerErrorException,
   Param,
   Patch,
   Post,
 } from '@nestjs/common'
 
+import { MessagesService } from './../messages/messages.service'
 import { CompetitorDto } from './competitor.dto'
 import { CompetitorsService } from './competitors.service'
 
 @Controller('competitors')
 export class CompetitorsController {
-  constructor(private readonly competitorsService: CompetitorsService) {}
+  constructor(
+    private readonly competitorsService: CompetitorsService,
+    private readonly messagesService: MessagesService
+  ) {}
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() competitor: CompetitorDto) {
-    const isCreated = this.competitorsService.create(competitor)
-
-    if (isCreated) return 'Competitor successfully created'
-
-    throw new InternalServerErrorException()
+    return this.competitorsService.create(competitor)
   }
 
   @Patch('update/:id')
   update(@Param('id') id: string, @Body() newCompetitor: CompetitorDto) {
-    const isUpdated = this.competitorsService.update(id, newCompetitor)
-
-    if (isUpdated) return 'Competitor successfully updated'
-
-    throw new InternalServerErrorException()
+    return this.competitorsService.update(id, newCompetitor)
   }
 
   @Delete('delete/:id')
@@ -42,9 +37,7 @@ export class CompetitorsController {
   delete(@Param('id') id: string) {
     const isDeleted = this.competitorsService.delete(id)
 
-    if (isDeleted) return 'Competitor successfully deleted'
-
-    throw new InternalServerErrorException()
+    if (isDeleted) return this.messagesService.deleted()
   }
 
   @Get()

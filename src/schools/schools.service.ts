@@ -24,7 +24,7 @@ export class SchoolsService {
     return await this.schoolRepository.find()
   }
 
-  async getOne(id: string): Promise<SchoolDto> {
+  async getOne(id: string): Promise<School> {
     return await this.schoolRepository.findOne(id)
   }
 }
