@@ -12,19 +12,19 @@ export class SchoolsService {
     return await this.schoolRepository.create(school)
   }
 
-  async update(id: string, newSchool: SchoolDto): Promise<School> {
-    return await this.schoolRepository.findOneAndUpdate(id, newSchool)
+  async update(_id: string, newSchool: SchoolDto): Promise<School> {
+    return await this.schoolRepository.findOneAndUpdate({ _id }, newSchool)
   }
 
   async delete(_id: string): Promise<boolean> {
-    return await this.schoolRepository.delete(_id)
+    return await this.schoolRepository.delete({ _id })
   }
 
   async get(): Promise<School[]> {
     return await this.schoolRepository.find()
   }
 
-  async getOne(id: string): Promise<School> {
-    return await this.schoolRepository.findOne(id)
+  async getOne(_id: string): Promise<School> {
+    return await this.schoolRepository.findOne({ _id })
   }
 }

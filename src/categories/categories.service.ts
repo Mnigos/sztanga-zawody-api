@@ -12,19 +12,19 @@ export class CategoriesService {
     return await this.categoryRepository.create(category)
   }
 
-  async delete(id: string): Promise<boolean> {
-    return await this.categoryRepository.delete(id)
+  async delete(_id: string): Promise<boolean> {
+    return await this.categoryRepository.delete({ _id })
   }
 
   async get(): Promise<Category[]> {
     return this.categoryRepository.find()
   }
 
-  async getOne(id: string): Promise<Category> {
-    return this.categoryRepository.findOne(id)
+  async getOne(_id: string): Promise<Category> {
+    return this.categoryRepository.findOne({ _id })
   }
 
-  async update(id: string, newCategory: CategoryDto): Promise<Category> {
-    return this.categoryRepository.findOneAndUpdate(id, newCategory)
+  async update(_id: string, newCategory: CategoryDto): Promise<Category> {
+    return this.categoryRepository.findOneAndUpdate({ _id }, newCategory)
   }
 }

@@ -1,5 +1,5 @@
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { UpdateQuery, Model } from 'mongoose'
+import { UpdateQuery, Model, FilterQuery } from 'mongoose'
 
 import { MessagesService } from '../messages/messages.service'
 
@@ -19,31 +19,31 @@ export abstract class AbstractRepository<TDocument, TDto> {
   }
 
   async findOneAndUpdate(
-    _id: string,
+    filterQuery: FilterQuery<TDocument>,
     document: UpdateQuery<TDocument>
   ): Promise<TDocument> {
     const foundedDocument = await this.model
-      .findOne({ _id }, {}, { lean: true })
+      .findOne(filterQuery, {}, { lean: true })
       .exec()
 
     if (!foundedDocument)
       throw new NotFoundException(this.messagesService.notFound())
 
     return await this.model
-      .findOneAndUpdate({ _id }, document, { lean: true })
+      .findOneAndUpdate(filterQuery, document, { lean: true })
       .exec()
   }
 
-  async delete(_id: string): Promise<boolean> {
+  async delete(filterQuery: FilterQuery<TDocument>): Promise<boolean> {
     const foundedDocument = await this.model
-      .findOne({ _id }, {}, { lean: true })
+      .findOne(filterQuery, {}, { lean: true })
       .exec()
 
     if (!foundedDocument)
       throw new NotFoundException(`${this.documentName} not found`)
 
     try {
-      await this.model.deleteOne({ _id }).exec()
+      await this.model.deleteOne(filterQuery).exec()
 
       return true
     } catch (error) {
@@ -55,9 +55,9 @@ export abstract class AbstractRepository<TDocument, TDto> {
     return await this.model.find({}, {}, { lean: true }).exec()
   }
 
-  async findOne(_id: string): Promise<TDocument> {
+  async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
     const foundedDocument = await this.model
-      .findOne({ _id }, {}, { lean: true })
+      .findOne(filterQuery, {}, { lean: true })
       .exec()
 
     if (!foundedDocument)

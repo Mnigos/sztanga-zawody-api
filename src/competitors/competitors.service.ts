@@ -18,8 +18,8 @@ export class CompetitorsService {
   async create(newCompetitor: CompetitorDto): Promise<CompetitorDocument> {
     const { categoryId, schoolId, ...competitor } = newCompetitor
 
-    const category = await this.categoryRepository.findOne(categoryId)
-    const school = await this.schoolRepository.findOne(schoolId)
+    const category = await this.categoryRepository.findOne({ _id: categoryId })
+    const school = await this.schoolRepository.findOne({ _id: schoolId })
 
     return await this.competitorRepository.create({
       ...competitor,
@@ -29,30 +29,33 @@ export class CompetitorsService {
   }
 
   async update(
-    id: string,
+    _id: string,
     newCompetitor: CompetitorDto
   ): Promise<CompetitorDocument> {
     const { categoryId, schoolId, ...competitor } = newCompetitor
 
-    const category = this.categoryRepository.findOne(categoryId)
-    const school = this.schoolRepository.findOne(schoolId)
+    const category = await this.categoryRepository.findOne({ _id: categoryId })
+    const school = await this.schoolRepository.findOne({ _id: schoolId })
 
-    return await this.competitorRepository.findOneAndUpdate(id, {
-      ...competitor,
-      category,
-      school,
-    })
+    return await this.competitorRepository.findOneAndUpdate(
+      { _id },
+      {
+        ...competitor,
+        category,
+        school,
+      }
+    )
   }
 
   async delete(_id: string): Promise<boolean> {
-    return await this.competitorRepository.delete(_id)
+    return await this.competitorRepository.delete({ _id })
   }
 
   async get(): Promise<CompetitorDocument[]> {
     return await this.competitorRepository.find()
   }
 
-  async getOne(id: string): Promise<CompetitorDocument> {
-    return await this.competitorRepository.findOne(id)
+  async getOne(_id: string): Promise<CompetitorDocument> {
+    return await this.competitorRepository.findOne({ _id })
   }
 }

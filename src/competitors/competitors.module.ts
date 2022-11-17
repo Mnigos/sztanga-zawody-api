@@ -22,6 +22,6 @@ import { CompetitorRepository } from './competitor.repository'
   ],
   providers: [CompetitorsService, CompetitorRepository],
   controllers: [CompetitorsController],
-  exports: [CompetitorsService],
+  exports: [CompetitorsService, CompetitorRepository],
 })
 export class CompetitorsModule {}
