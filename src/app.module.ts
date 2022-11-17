@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import Joi from 'joi'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { Environment } from './environment.enum'
+import { Environment } from './config/environment.enum'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { CategoriesModule } from './categories/categories.module'
