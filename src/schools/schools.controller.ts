@@ -11,30 +11,27 @@ import {
   Post,
 } from '@nestjs/common'
 
+import { MessagesService } from '../messages/messages.service'
+
 import { SchoolDto } from './school.dto'
 import { SchoolsService } from './schools.service'
 
 @Controller('schools')
 export class SchoolsController {
-  constructor(private readonly schoolsService: SchoolsService) {}
+  constructor(
+    private readonly schoolsService: SchoolsService,
+    private readonly messagesService: MessagesService
+  ) {}
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() school: SchoolDto) {
-    const isCreated = this.schoolsService.create(school)
-
-    if (isCreated) return 'School successfully created'
-
-    throw new InternalServerErrorException()
+    return this.schoolsService.create(school)
   }
 
   @Patch('update/:id')
   update(@Param('id') id: string, @Body() newSchool: SchoolDto) {
-    const isUpdated = this.schoolsService.update(id, newSchool)
-
-    if (isUpdated) return 'School successfully updated'
-
-    throw new InternalServerErrorException()
+    return this.schoolsService.update(id, newSchool)
   }
 
   @Delete('delete/:id')
@@ -42,7 +39,7 @@ export class SchoolsController {
   delete(@Param('id') id: string) {
     const isDeleted = this.schoolsService.delete(id)
 
-    if (isDeleted) return 'School successfully deleted'
+    if (isDeleted) return this.messagesService.deleted()
 
     throw new InternalServerErrorException()
   }

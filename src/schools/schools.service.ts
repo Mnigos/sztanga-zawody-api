@@ -1,61 +1,30 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { Injectable } from '@nestjs/common'
 
+import { School } from './school.document'
 import { SchoolDto } from './school.dto'
-import { SchoolApi } from './school.schema'
+import { SchoolRepository } from './school.repository'
 
 @Injectable()
 export class SchoolsService {
-  constructor(
-    @InjectModel('School') private readonly schoolModel: Model<SchoolApi>
-  ) {}
+  constructor(private readonly schoolRepository: SchoolRepository) {}
 
-  async create(school: SchoolDto): Promise<boolean> {
-    try {
-      await this.schoolModel.create(school)
-
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+  async create(school: SchoolDto): Promise<School> {
+    return await this.schoolRepository.create(school)
   }
 
-  async update(_id: string, newSchool: SchoolDto): Promise<SchoolDto> {
-    const foundedSchool = await this.schoolModel.findOne({ _id }).exec()
-
-    if (!foundedSchool)
-      throw new BadRequestException('Cannot find school with given id')
-
-    await this.schoolModel.updateOne({ _id }, newSchool).exec()
-
-    return await this.schoolModel.findOne({ _id }).exec()
+  async update(id: string, newSchool: SchoolDto): Promise<School> {
+    return await this.schoolRepository.findOneAndUpdate(id, newSchool)
   }
 
   async delete(_id: string): Promise<boolean> {
-    const foundedSchool = await this.schoolModel.findOne({ _id }).exec()
-
-    if (!foundedSchool)
-      throw new BadRequestException('Cannot find school with given id')
-
-    try {
-      await this.schoolModel.deleteOne({ _id }).exec()
-
-      return true
-    } catch (error) {
-      throw new InternalServerErrorException(error)
-    }
+    return await this.schoolRepository.delete(_id)
   }
 
-  async get(): Promise<SchoolDto[]> {
-    return (await this.schoolModel.find().exec()) as SchoolDto[]
+  async get(): Promise<School[]> {
+    return await this.schoolRepository.find()
   }
 
-  async getOne(_id: string): Promise<SchoolDto> {
-    return (await this.schoolModel.findOne({ _id }).exec()) as SchoolDto
+  async getOne(id: string): Promise<SchoolDto> {
+    return await this.schoolRepository.findOne(id)
   }
 }
