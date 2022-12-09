@@ -6,19 +6,17 @@ import {
   AttemptDto,
   AttemptRepository,
 } from '~/attempts'
-import { CategoryRepository } from '~/categories'
 import { CompetitorRepository } from '~/competitors'
 
 @Injectable()
 export class AttemptsService {
   constructor(
     private readonly attemtRepository: AttemptRepository,
-    private readonly competitorRepository: CompetitorRepository,
-    private readonly categoryRepository: CategoryRepository
+    private readonly competitorRepository: CompetitorRepository
   ) {}
 
   async create(newAttempt: AttemptDto): Promise<AttemptDocument> {
-    const { competitorId, categoryId, ...attempt } = newAttempt
+    const { competitorId, ...attempt } = newAttempt
 
     const foundedAttemptsFromThisCompetitor = await this.attemtRepository.find({
       competitor: { _id: competitorId },
@@ -33,11 +31,8 @@ export class AttemptsService {
       _id: competitorId,
     })
 
-    const category = await this.categoryRepository.findOne({ _id: categoryId })
-
     const attemptToCreate: Attempt = {
       ...attempt,
-      category,
       competitor,
     }
 

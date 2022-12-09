@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document, Types } from 'mongoose'
 
 import { Attempt, AttemptStatus } from '~/attempts'
-import { CategoryDocument } from '~/categories'
 import { CompetitorDocument } from '~/competitors'
 import { ModelName } from '~/database'
 
@@ -10,9 +9,6 @@ import { ModelName } from '~/database'
 export class AttemptApi extends Document implements Attempt {
   @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Competitor })
   competitor: CompetitorDocument
-
-  @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Category })
-  category: CategoryDocument
 
   @Prop({ type: Number, required: true })
   weight: number

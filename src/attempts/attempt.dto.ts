@@ -9,10 +9,6 @@ export abstract class AttemptDto {
   competitorId: string
 
   @ApiProperty()
-  @IsString()
-  categoryId: string
-
-  @ApiProperty()
   @IsInt()
   weight: number
 
