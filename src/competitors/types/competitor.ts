@@ -7,5 +7,4 @@ export interface Competitor {
   school: SchoolDocument
   category: CategoryDocument
   weight: number
-  birthDate: Date
 }

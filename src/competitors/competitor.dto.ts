@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsDateString, IsInt, IsString, MinLength } from 'class-validator'
+import { IsInt, IsString, MinLength } from 'class-validator'
 
 export abstract class CompetitorDto {
   @ApiProperty()
@@ -23,8 +23,4 @@ export abstract class CompetitorDto {
   @ApiProperty()
   @IsInt()
   weight: number
-
-  @ApiProperty()
-  @IsDateString()
-  birthDate: Date
 }

@@ -22,9 +22,6 @@ export class CompetitorApi extends Document implements Competitor {
 
   @Prop({ type: Number, required: true })
   weight: number
-
-  @Prop({ type: Date, required: true })
-  birthDate: Date
 }
 
 export const CompetitorSchema = SchemaFactory.createForClass(CompetitorApi)
