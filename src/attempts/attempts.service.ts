@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { ConflictException, Injectable } from '@nestjs/common'
 
 import { AttemptDocument, AttemptDto, AttemptRepository } from '~/attempts'
 import { CompetitorRepository } from '~/competitors'
@@ -16,6 +16,15 @@ export class AttemptsService {
     const competitor = await this.competitorRepository.findOne({
       _id: competitorId,
     })
+
+    const foundedAttemptsFromThisCompetitor = await this.attemtRepository.find({
+      competitor: { _id: competitorId },
+    })
+
+    if (foundedAttemptsFromThisCompetitor.length >= 3)
+      throw new ConflictException(
+        'This competitor has already took part in all 3 attempts'
+      )
 
     return await this.attemtRepository.create({
       ...attempt,
