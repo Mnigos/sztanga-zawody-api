@@ -1,6 +1,11 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 
-import { AttemptDocument, AttemptDto, AttemptRepository } from '~/attempts'
+import {
+  Attempt,
+  AttemptDocument,
+  AttemptDto,
+  AttemptRepository,
+} from '~/attempts'
 import { CategoryRepository } from '~/categories'
 import { CompetitorRepository } from '~/competitors'
 
@@ -30,11 +35,20 @@ export class AttemptsService {
 
     const category = await this.categoryRepository.findOne({ _id: categoryId })
 
-    return await this.attemtRepository.create({
+    const attemptToCreate: Attempt = {
       ...attempt,
       category,
       competitor,
-    })
+    }
+
+    await this.competitorRepository.findOneAndUpdate(
+      { _id: competitorId },
+      {
+        attempts: [...foundedAttemptsFromThisCompetitor, attemptToCreate],
+      }
+    )
+
+    return await this.attemtRepository.create(attemptToCreate)
   }
 
   async update(_id: string, newAttempt: AttemptDto): Promise<AttemptDocument> {

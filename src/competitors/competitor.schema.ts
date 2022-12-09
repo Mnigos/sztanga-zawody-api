@@ -5,6 +5,7 @@ import { Competitor } from '~/competitors'
 import { ModelName } from '~/database'
 import { SchoolDocument } from '~/schools'
 import { CategoryDocument } from '~/categories'
+import { AttemptDocument } from '~/attempts'
 
 @Schema()
 export class CompetitorApi extends Document implements Competitor {
@@ -19,6 +20,9 @@ export class CompetitorApi extends Document implements Competitor {
 
   @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Category })
   category: CategoryDocument
+
+  @Prop([{ type: Types.ObjectId, default: () => [], ref: ModelName.Attempt }])
+  attempts?: AttemptDocument[]
 
   @Prop({ type: Number, required: true })
   weight: number
