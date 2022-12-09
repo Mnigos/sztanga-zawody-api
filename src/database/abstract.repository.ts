@@ -51,8 +51,8 @@ export abstract class AbstractRepository<TDocument, TDto> {
     }
   }
 
-  async find(): Promise<TDocument[]> {
-    return await this.model.find({}, {}, { lean: true }).exec()
+  async find(filterQuery: FilterQuery<TDocument> = {}): Promise<TDocument[]> {
+    return await this.model.find(filterQuery, {}, { lean: true }).exec()
   }
 
   async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
