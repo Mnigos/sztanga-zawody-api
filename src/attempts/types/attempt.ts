@@ -1,8 +1,9 @@
 import { CompetitorDocument } from '~/competitors'
 import { AttemptStatus } from '~/attempts'
+import { CategoryDocument } from '~/categories'
 
 export interface Attempt {
   competitor: CompetitorDocument
-  weight: number
+  category: CategoryDocument
   status: AttemptStatus
 }

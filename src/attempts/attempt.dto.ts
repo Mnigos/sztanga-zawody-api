@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsEnum, IsInt, IsString } from 'class-validator'
+import { IsEnum, IsString } from 'class-validator'
 
 import { AttemptStatus } from '~/attempts'
 
@@ -9,8 +9,8 @@ export abstract class AttemptDto {
   competitorId: string
 
   @ApiProperty()
-  @IsInt()
-  weight: number
+  @IsString()
+  categoryId: string
 
   @ApiProperty()
   @IsEnum(AttemptStatus)

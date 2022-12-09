@@ -1,21 +1,19 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 
 import { AttemptDocument, AttemptDto, AttemptRepository } from '~/attempts'
+import { CategoryRepository } from '~/categories'
 import { CompetitorRepository } from '~/competitors'
 
 @Injectable()
 export class AttemptsService {
   constructor(
     private readonly attemtRepository: AttemptRepository,
-    private readonly competitorRepository: CompetitorRepository
+    private readonly competitorRepository: CompetitorRepository,
+    private readonly categoryRepository: CategoryRepository
   ) {}
 
   async create(newAttempt: AttemptDto): Promise<AttemptDocument> {
-    const { competitorId, ...attempt } = newAttempt
-
-    const competitor = await this.competitorRepository.findOne({
-      _id: competitorId,
-    })
+    const { competitorId, categoryId, ...attempt } = newAttempt
 
     const foundedAttemptsFromThisCompetitor = await this.attemtRepository.find({
       competitor: { _id: competitorId },
@@ -26,8 +24,15 @@ export class AttemptsService {
         'This competitor has already took part in all 3 attempts'
       )
 
+    const competitor = await this.competitorRepository.findOne({
+      _id: competitorId,
+    })
+
+    const category = await this.categoryRepository.findOne({ _id: categoryId })
+
     return await this.attemtRepository.create({
       ...attempt,
+      category,
       competitor,
     })
   }

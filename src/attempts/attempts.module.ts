@@ -10,6 +10,7 @@ import {
 } from '~/attempts'
 import { DocumentName, ModelName } from '~/database'
 import { MessagesModule } from '~/messages'
+import { CategoriesModule } from '~/categories'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MessagesModule } from '~/messages'
     ]),
     MessagesModule.register(DocumentName.Attempt),
     CompetitorsModule,
+    CategoriesModule,
   ],
   providers: [AttemptsService, AttemptRepository],
   controllers: [AttemptsController],
