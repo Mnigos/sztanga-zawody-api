@@ -5,5 +5,6 @@ import { CategoryDocument } from '~/categories'
 export interface Attempt {
   competitor: CompetitorDocument
   category: CategoryDocument
+  weight: number
   status: AttemptStatus
 }

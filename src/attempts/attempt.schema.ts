@@ -14,6 +14,9 @@ export class AttemptApi extends Document implements Attempt {
   @Prop({ type: Types.ObjectId, required: true, ref: ModelName.Category })
   category: CategoryDocument
 
+  @Prop({ type: Number, required: true })
+  weight: number
+
   @Prop({
     type: String,
     required: true,
